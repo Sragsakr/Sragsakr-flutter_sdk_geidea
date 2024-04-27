@@ -30,8 +30,13 @@ class CreditCardScreen extends StatefulWidget {
   late PaymentCard paymentCard = PaymentCard.empty();
   late bool saveCard = false;
   CheckoutOptions checkoutOptions;
+  final Function(PaymentCard)? onCardEditComplete;
 
-  CreditCardScreen({Key? key, required this.checkoutOptions}) : super(key: key);
+  CreditCardScreen({
+    Key? key,
+    required this.checkoutOptions,
+    this.onCardEditComplete,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -112,6 +117,8 @@ class CreditCardScreenState extends State<CreditCardScreen> {
                               themeColor: Colors.blue,
                               textColor: Colors.white,
                               onChange: cardNumberChange,
+                              onCardEditComplete: () => widget
+                                  .onCardEditComplete!(widget.paymentCard),
                               cardNumberDecoration: InputDecoration(
                                 labelText: 'Number',
                                 hintText: 'XXXX XXXX XXXX XXXX',
@@ -229,7 +236,8 @@ class CreditCardScreenState extends State<CreditCardScreen> {
                                       margin: const EdgeInsets.all(12),
                                       child: Text(
                                         'Pay ' +
-                                            widget.checkoutOptions.amount.toString() +
+                                            widget.checkoutOptions.amount
+                                                .toString() +
                                             ' ' +
                                             (widget.checkoutOptions.currency !=
                                                     null
@@ -862,7 +870,8 @@ class CreditCardScreenState extends State<CreditCardScreen> {
                                                     .checkoutOptions.currency!
                                                 : '') +
                                             'ادفع ' +
-                                            widget.checkoutOptions.amount.toString() +
+                                            widget.checkoutOptions.amount
+                                                .toString() +
                                             ' ',
                                         style: const TextStyle(
                                           color: Colors.white,
